@@ -1,6 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+struct Avion{
+    int idAvion;
+    char modele[20];
+    int capacite;
+    char statut[20];
+};
+struct Aeroport{
+    char nom[20];
+    int nbAvions;
+    struct Avion avions[100];
+};
 int main()
 {
     int operation;
@@ -17,7 +27,17 @@ int main()
     printf("8.Statistiques\n");
     printf("L'operation a effectuee:\n");
     scanf("%d",&operation);
+    switch(operation){
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
 
+    }
     }while(operation!=0);
 
     return 0;
