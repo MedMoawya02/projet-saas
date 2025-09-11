@@ -198,6 +198,29 @@ void triModele(){
         printf("Statut=%s",aer.avions[i].statut);
     }
 }
+
+/////////////
+
+void statistiques(){
+    int disponible=0;
+    int vol=0;
+    int maintenance=0;
+printf("Le nombre total des avions chez %s est : %d\n",aer.nom,aer.nbAvions);
+for(int i=0;i<aer.nbAvions;i++){
+    if(strcasecmp(aer.avions[i].statut,"Disponible")==0){
+        disponible++;
+    }
+    else if(strcasecmp(aer.avions[i].statut,"En_vol")==0){
+        vol++;
+    }
+    else
+        maintenance++;
+}
+printf("Le nombre des avions disponible :%d\n",disponible);
+printf("Le nombre des avions En_Vol :%d\n",vol);
+printf("Le nombre des avions maintenance :%d\n",maintenance);
+}
+
 int main()
 {
     aer.nbAvions=0;
@@ -260,7 +283,8 @@ int main()
 
         break;
     case 7:
-    case 8:
+        statistiques();
+        break;
     case 0:
         break;
     default:
