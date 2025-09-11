@@ -73,7 +73,7 @@ int id,nouvelleC;
 char nouveauM[20];
 int existe=-1;
 if(aer.nbAvions==0){
-    printf("Aucune avion a modifiee\n");
+    printf("Aucune avion dans l'aeroport pour le moment\n");
     return;
 }
 printf("Quel est l'id de l'avion voulez-vous modifier ? ");
@@ -105,6 +105,10 @@ else{
 void supprimerAvion(){
 int id,i;
 int existe=-1;
+if(aer.nbAvions==0){
+    printf("Aucune avion dans l'aeroport pour le moment \n");
+    return;
+}
 printf("Entrez l'id de l'avion a supprimee:");
 scanf("%d",&id);
 for(i=0;i<aer.nbAvions;i++){
@@ -130,6 +134,10 @@ else{
 void rechercheId(){
     int id,existe=-1;
     int i;
+    if(aer.nbAvions==0){
+    printf("Aucune avion dans l'aeroport pour le moment\n");
+    return;
+}
     printf("L'id de l'avion qe tu veut?");
     scanf("%d",&id);
     for(i=0;i<aer.nbAvions;i++){
@@ -162,30 +170,31 @@ void triCapacite(){
     }
     printf("La liste des avions apres un tri par capacite:\n");
     for(i=0;i<aer.nbAvions;i++){
-        printf("L'id:%d",aer.avions[i].idAvion);
-        printf("Modele:=%s",aer.avions[i].modele);
-        printf("Capacite=%d",aer.avions[i].capacite);
+        printf("L'id:%d |",aer.avions[i].idAvion);
+        printf("Modele:=%s |",aer.avions[i].modele);
+        printf("Capacite=%d |",aer.avions[i].capacite);
         printf("Statut=%s",aer.avions[i].statut);
     }
 }
 void triModele(){
     int i,j;
     struct Avion temp;
-    for(i=0;i<aer.nbAvions-1;i++)
-    for(j=i+1;j<aer.nbAvions;j++){
-        if(strcasecmp(aer.avions[i].modele,aer.avions[j].modele)>0){
-            temp=aer.avions[i];
-            aer.avions[i]=aer.avions[j];
-            aer.avions[j]=temp;
+    for(i=0;i<aer.nbAvions-1;i++){
+        for(j=i+1;j<aer.nbAvions;j++){
+            if(strcasecmp(aer.avions[i].modele,aer.avions[j].modele)>0){
+                temp=aer.avions[i];
+                aer.avions[i]=aer.avions[j];
+                aer.avions[j]=temp;
+    }
 
 
         }
     }
-    printf("La liste des avions un tri par modele:\n");
+    printf("La liste des avions apres un tri par modele:\n");
     for(i=0;i<aer.nbAvions;i++){
-        printf("L'id:%d",aer.avions[i].idAvion);
-        printf("Modele:=%s",aer.avions[i].modele);
-        printf("Capacite=%d",aer.avions[i].capacite);
+        printf("L'id:%d |",aer.avions[i].idAvion);
+        printf("Modele:=%s |",aer.avions[i].modele);
+        printf("Capacite=%d |",aer.avions[i].capacite);
         printf("Statut=%s",aer.avions[i].statut);
     }
 }
@@ -206,9 +215,8 @@ int main()
     printf("3.Modifier une avion\n");
     printf("4.Supprimer une avion\n");
     printf("5.Rechercher une avion\n");
-    printf("6.Trier par capacite\n");
-    printf("7.Trier par modele\n");
-    printf("8.Statistiques\n");
+    printf("6.Trier les avions\n");
+    printf("7.Statistiques\n");
     printf("0.Quitter\n");
     printf("L'operation a effectuee:\n");
     scanf("%d",&operation);
@@ -231,23 +239,23 @@ int main()
     case 6:
         int choix;
         if(aer.nbAvions==0){
-            printf("Aucune avion a triee pour le moment\n");
+            printf("Aucune avion dans l'aeroport pour le moment\n");
         }
         else{
 
-            printf("Options:\n");
-            do{
-                printf("1.Tri par capacite\n");
-                printf("2.Tri par modele\n");
-                printf("Quelle est votre choix:");
-                scanf("%d",&choix);
-            }while (choix<=0||choix>2);
-            
-            switch(choix){
-                case 1:triCapacite();break;
-                case 2:triModele();break;
-                default:printf("Choix invalid\n");break;
-            }
+        printf("Options:\n");
+        do{
+
+        printf("1.Tri par capacite\n");
+        printf("2.Tri par modele\n");
+        printf("Quelle est votre choix:");
+        scanf("%d",&choix);
+        }while(choix<=0||choix>2);
+        switch(choix){
+            case 1:triCapacite();break;
+            case 2:triModele();break;
+            default:printf("Choix invalid\n");break;
+        }
         }
 
         break;
