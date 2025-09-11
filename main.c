@@ -195,7 +195,7 @@ void triModele(){
         printf("L'id:%d |",aer.avions[i].idAvion);
         printf("Modele:=%s |",aer.avions[i].modele);
         printf("Capacite=%d |",aer.avions[i].capacite);
-        printf("Statut=%s",aer.avions[i].statut);
+        printf("Statut=%s\n",aer.avions[i].statut);
     }
 }
 
@@ -208,6 +208,7 @@ void statistiques(){
 printf("Le nombre total des avions chez %s est : %d\n",aer.nom,aer.nbAvions);
 for(int i=0;i<aer.nbAvions;i++){
     if(strcasecmp(aer.avions[i].statut,"Disponible")==0){
+
         disponible++;
     }
     else if(strcasecmp(aer.avions[i].statut,"En_vol")==0){
@@ -217,8 +218,36 @@ for(int i=0;i<aer.nbAvions;i++){
         maintenance++;
 }
 printf("Le nombre des avions disponible :%d\n",disponible);
+for(int i=0;i<aer.nbAvions;i++){
+if(strcasecmp(aer.avions[i].statut,"Disponible")==0){
+    printf("L'id:%d     |",aer.avions[i].idAvion);
+    printf("Modele:=%s  |",aer.avions[i].modele);
+    printf("Capacite=%d |",aer.avions[i].capacite);
+    printf("Statut=%s\n",aer.avions[i].statut);
+}
+
+}
 printf("Le nombre des avions En_Vol :%d\n",vol);
+for(int i=0;i<aer.nbAvions;i++){
+if(strcasecmp(aer.avions[i].statut,"En_Vol")==0){
+    printf("L'id:%d      |",aer.avions[i].idAvion);
+    printf("Modele:=%s   |",aer.avions[i].modele);
+    printf("Capacite=%d  |",aer.avions[i].capacite);
+    printf("Statut=%s\n",aer.avions[i].statut);
+}
+
+}
 printf("Le nombre des avions maintenance :%d\n",maintenance);
+for(int i=0;i<aer.nbAvions;i++){
+if(strcasecmp(aer.avions[i].statut,"En_Maintenance")==0){
+    printf("L'id:%d      |",aer.avions[i].idAvion);
+    printf("Modele:=%s   |",aer.avions[i].modele);
+    printf("Capacite=%d  |",aer.avions[i].capacite);
+    printf("Statut=%s\n",aer.avions[i].statut);
+}
+
+}
+
 }
 
 int main()
