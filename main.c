@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include<string.h>
@@ -45,16 +46,18 @@ printf("Modele:");
 scanf("%s",a.modele);
 printf("Capacite:");
 scanf("%d",&a.capacite);
+do{
 printf("Statut\n");
 printf("1.Disponible\n");
 printf("2.En_Vol\n");
 printf("3.En_Maintenance\n");
 scanf("%d",&choix);
+}while(choix<=0||choix>3);
 switch(choix){
 case 1:strcpy(a.statut,"Disponible");break;
 case 2:strcpy(a.statut,"En_Vol");break;
 case 3:strcpy(a.statut,"En_Maintenance");break;
-default:printf("Choix invalide, statut défini à 'Indéfini'\n");
+default:printf("Choix invalide, statut defini à 'Indefini'\n");
         strcpy(a.statut, "Indéfini");
         break;
 }
@@ -122,26 +125,20 @@ else{
     printf("Avion supprimee\n");
 }
 }
+///////////////
 
-/////////
 void rechercheId(){
-    int i,id,existe=-1;
-    if(aer.nbAvions==0){
-        printf("Aucune avion stationnee\n");
-        return;
-    }
-    else{
-
-        printf("Entrez l'id de l'avion voulez-vous cherchez");
-        scanf("%d",&id);
-        for(i=0;i<aer.nbAvions;i++){
-            if(aer.avions[i].idAvion==id){
-                existe=i;
-                break;
-            }
+    int id,existe=-1;
+    int i;
+    printf("L'id de l'avion qe tu veut?");
+    scanf("%d",&id);
+    for(i=0;i<aer.nbAvions;i++){
+        if(aer.avions[i].idAvion==id){
+            existe=i;
+            break;
         }
     }
-       if(existe==-1)
+    if(existe==-1)
         printf("Id indisponible\n");
     else{
         printf("L'avion %d\n",id);
@@ -149,8 +146,49 @@ void rechercheId(){
     }
 
 }
+//////////////
+void triCapacite(){
+    int i,j;
+    struct Avion temp;
+    for(i=0;i<aer.nbAvions-1;i++){
+        for(j=i+1;j<aer.nbAvions;j++){
+        if(aer.avions[i].capacite>aer.avions[j].capacite){
+            temp=aer.avions[i];
+            aer.avions[i]=aer.avions[j];
+            aer.avions[j]=temp;
+        }
+
+    }
+    }
+    printf("La liste des avions apres un tri par capacite:\n");
+    for(i=0;i<aer.nbAvions;i++){
+        printf("L'id:%d",aer.avions[i].idAvion);
+        printf("Modele:=%s",aer.avions[i].modele);
+        printf("Capacite=%d",aer.avions[i].capacite);
+        printf("Statut=%s",aer.avions[i].statut);
+    }
+}
+void triModele(){
+    int i,j;
+    struct Avion temp;
+    for(i=0;i<aer.nbAvions-1;i++)
+    for(j=i+1;j<aer.nbAvions;j++){
+        if(strcasecmp(aer.avions[i].modele,aer.avions[j].modele)>0){
+            temp=aer.avions[i];
+            aer.avions[i]=aer.avions[j];
+            aer.avions[j]=temp;
 
 
+        }
+    }
+    printf("La liste des avions un tri par modele:\n");
+    for(i=0;i<aer.nbAvions;i++){
+        printf("L'id:%d",aer.avions[i].idAvion);
+        printf("Modele:=%s",aer.avions[i].modele);
+        printf("Capacite=%d",aer.avions[i].capacite);
+        printf("Statut=%s",aer.avions[i].statut);
+    }
+}
 int main()
 {
     aer.nbAvions=0;
@@ -163,7 +201,6 @@ int main()
     printf("Bienvenue chez %s \n",aer.nom);
 
     do{
-    //printf("Aeroport cree avec success\n");
     printf("1.Affichage aeroport\n");
     printf("2.Ajouter une avion\n");
     printf("3.Modifier une avion\n");
@@ -192,6 +229,28 @@ int main()
         rechercheId();
         break;
     case 6:
+        int choix;
+        if(aer.nbAvions==0){
+            printf("Aucune avion a triee pour le moment\n");
+        }
+        else{
+
+            printf("Options:\n");
+            do{
+                printf("1.Tri par capacite\n");
+                printf("2.Tri par modele\n");
+                printf("Quelle est votre choix:");
+                scanf("%d",&choix);
+            }while (choix<=0||choix>2);
+            
+            switch(choix){
+                case 1:triCapacite();break;
+                case 2:triModele();break;
+                default:printf("Choix invalid\n");break;
+            }
+        }
+
+        break;
     case 7:
     case 8:
     case 0:
