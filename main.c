@@ -47,7 +47,7 @@ scanf("%s",a.modele);
 printf("Capacite:");
 scanf("%d",&a.capacite);
 do{
-printf("Statut\n");
+printf("Statut:\n");
 printf("1.Disponible\n");
 printf("2.En_Vol\n");
 printf("3.En_Maintenance\n");
@@ -247,8 +247,33 @@ if(strcasecmp(aer.avions[i].statut,"En_Maintenance")==0){
 }
 
 }
+int max=aer.avions[0].capacite;
+int idMax=0;
+  for(int i = 1; i < aer.nbAvions; i++) {
+        if(aer.avions[i].capacite > max) {
+            max = aer.avions[i].capacite;
+            idMax = i;
+        }
+    }
 
+    printf("L'avion avec la plus grande capacite est:");
+    printf("ID: %d | Modele: %s | Capacite: %d | \n",
+           aer.avions[idMax].idAvion,
+           aer.avions[idMax].modele,
+           aer.avions[idMax].capacite);
+int min=aer.avions[0].capacite;
+int idMin=0;
+    for(int i=0;i<aer.nbAvions;i++){
+        if(min>aer.avions[i].capacite){
+            min=aer.avions[i].capacite;
+            idMin=i;
+        }
+    }
+    printf("L'avion ayant la plus petit capacite est :");
+    printf("ID: %d | Modele: %s | Capacite: %d | \n",aer.avions[idMin].idAvion,aer.avions[idMin].modele,aer.avions[idMin].capacite);
 }
+
+
 
 int main()
 {
