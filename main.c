@@ -7,10 +7,10 @@ struct Avion{
     int idAvion;
     char modele[20];
     int capacite;
-    int statut[3];
+    char statut[25];
 };
-
 struct Avion a;
+
 struct Aeroport{
     char nom[20];
     int nbAvions;
@@ -18,46 +18,62 @@ struct Aeroport{
 };
 struct Aeroport aer;
 int id=1;
+
+
 void afficherAeroport(){
-printf("Entrez le nom de l'aeroport:\n");
-scanf("%s",aer.nom);
-aer.nbAvions=0;
-printf("Aeroport cree avec success");
+printf("Nom de l'aeroport:%s\n",aer.nom);
+if(aer.nbAvions==0){
+    printf("Aucune avion enregistre\n");
+    return;
 }
-/////
+for(int i=0;i<aer.nbAvions;i++){
+    printf("Avion [%d]===>Modele:%s | Capacitee:%d | Statut:%s\n",i+1,aer.avions[i].modele,aer.avions[i].capacite,aer.avions[i].statut);
+}
+
+
+}
+///////////
 void ajouterAvion(){
 if(aer.nbAvions>=MAX_AVIONS){
     printf("Impossible de depasser 100 avions\n");
+    return;
 }
-
+int choix;
 a.idAvion=id++;
 printf("L'avion %d\n",a.idAvion);
 printf("Modele:");
 scanf("%s",a.modele);
 printf("Capacite:");
 scanf("%d",&a.capacite);
+printf("Statut\n");
+printf("1.Disponible\n");
+printf("2.En_Vol\n");
+printf("3.En_Maintenance\n");
+scanf("%d",&choix);
+switch(choix){
+case 1:strcpy(a.statut,"Disponible");break;
+case 2:strcpy(a.statut,"En_Vol");break;
+case 3:strcpy(a.statut,"En_Maintenance");break;
+default:printf("Choix invalide, statut défini à 'Indéfini'\n");
+        strcpy(a.statut, "Indéfini");
+        break;
+}
 aer.avions[aer.nbAvions]=a;
 aer.nbAvions++;
 printf("Avion ajoute avec succes.\n");
-printf("L'aeroport:%s\n",aer.nom);
-printf("\n");
-printf("Liste des avions :");
-printf("\n");
-for(int i=0;i<aer.nbAvions;i++){
-    printf("%d %s %d\n",aer.avions[i].idAvion,aer.avions[i].modele,aer.avions[i].capacite );
 }
 
 
-}
-////////
+///////////////
 void modifierAvion(){
 int id,nouvelleC;
 char nouveauM[20];
 int existe=-1;
 if(aer.nbAvions==0){
     printf("Aucune avion a modifiee\n");
+    return;
 }
-printf("Quel ID de l'avion voulez-vous modifier ? ");
+printf("Quel est l'id de l'avion voulez-vous modifier ? ");
 scanf("%d", &id);
 for(int i=0;i<aer.nbAvions;i++){
     if(aer.avions[i].idAvion==id){
@@ -65,29 +81,89 @@ for(int i=0;i<aer.nbAvions;i++){
         break;
     }
 }
-if(existe==-1)
+if(existe==-1){
     printf("Id indisponible.\n");
+    return;
+}
 else{
     printf("Entrez le nouveau modele:");
-    fgets(nouveauM,sizeof(nouveauM),stdin);
-    nouveauM[strcspn(nouveauM, "\n")] = 0;
+    scanf("%s",nouveauM);
     strcpy(aer.avions[existe].modele, nouveauM);
     printf("Entrez la nouvelle capacitee:");
     scanf("%d",&nouvelleC);
+    aer.avions[existe].capacite=nouvelleC;
 }
 
 
 
 }
 
+/////////////////
+void supprimerAvion(){
+int id,i;
+int existe=-1;
+printf("Entrez l'id de l'avion a supprimee:");
+scanf("%d",&id);
+for(i=0;i<aer.nbAvions;i++){
+    if(aer.avions[i].idAvion==id){
+        existe=i;
+        break;
+    }
+}
+if(existe==-1){
+    printf("Id indisponible\n");
+    return;
+}
+else{
+    for(i=existe;i<aer.nbAvions;i++){
+        aer.avions[i]=aer.avions[i+1];
+    }
+        aer.nbAvions--;
+    printf("Avion supprimee\n");
+}
+}
+
+/////////
+void rechercheId(){
+    int i,id,existe=-1;
+    if(aer.nbAvions==0){
+        printf("Aucune avion stationnee\n");
+        return;
+    }
+    else{
+
+        printf("Entrez l'id de l'avion voulez-vous cherchez");
+        scanf("%d",&id);
+        for(i=0;i<aer.nbAvions;i++){
+            if(aer.avions[i].idAvion==id){
+                existe=i;
+                break;
+            }
+        }
+    }
+       if(existe==-1)
+        printf("Id indisponible\n");
+    else{
+        printf("L'avion %d\n",id);
+        printf("Id : %d | Modele : %s | Capacite : %d | Statut : %s\n",aer.avions[existe].idAvion,aer.avions[existe].modele,aer.avions[existe].capacite,aer.avions[existe].statut);
+    }
+
+}
 
 
 int main()
 {
+    aer.nbAvions=0;
     int operation;
-    do{
+
     printf("\n---Gestion d'aeroport---\n");
+    printf("Entrez le nom de l'aeroport:\n");
+    scanf("%s",aer.nom);
     printf("---Menu---\n");
+    printf("Bienvenue chez %s \n",aer.nom);
+
+    do{
+    //printf("Aeroport cree avec success\n");
     printf("1.Affichage aeroport\n");
     printf("2.Ajouter une avion\n");
     printf("3.Modifier une avion\n");
@@ -110,7 +186,11 @@ int main()
         modifierAvion();
         break;
     case 4:
+        supprimerAvion();
+        break;
     case 5:
+        rechercheId();
+        break;
     case 6:
     case 7:
     case 8:
