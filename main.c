@@ -155,6 +155,27 @@ void rechercheId(){
 
 }
 //////////////
+void rechercheModele(){
+    int i,existe=-1;
+    char input[25];
+    printf("Entrez le modele voulez-est vous cherchez:");
+    fgets(input,sizeof(input),stdin);
+    input[strcspn(input,"\n")]=0;
+
+    for(i=0;i<aer.nbAvions;i++){
+        if(strcasecmp(aer.avions[i].modele,input)==0){
+            existe=i;
+            break;
+        }
+    }
+    if(existe==-1)
+        printf("Modele indisponible\n");
+    else{
+        printf("L'avion %d\n",input);
+        printf("Id : %d | Modele : %s | Capacite : %d | Statut : %s\n",aer.avions[existe].idAvion,aer.avions[existe].modele,aer.avions[existe].capacite,aer.avions[existe].statut);
+    }
+}
+//////////////
 void triCapacite(){
     int i,j;
     struct Avion temp;
@@ -173,7 +194,7 @@ void triCapacite(){
         printf("L'id:%d |",aer.avions[i].idAvion);
         printf("Modele:=%s |",aer.avions[i].modele);
         printf("Capacite=%d |",aer.avions[i].capacite);
-        printf("Statut=%s",aer.avions[i].statut);
+        printf("Statut=%s\n",aer.avions[i].statut);
     }
 }
 void triModele(){
@@ -311,7 +332,27 @@ int main()
         supprimerAvion();
         break;
     case 5:
-        rechercheId();
+        int choixR;
+        if(aer.nbAvions==0){
+            printf("Aucune avion dans l'aeroport pour le moment\n");
+        }
+        else{
+
+        printf("Options:\n");
+        do{
+
+        printf("1.Recherche par ID?\n");
+        printf("2.Recherche par modele?\n");
+        printf("Quelle est votre choix:");
+        scanf("%d",&choixR);
+        }while(choixR<=0||choixR>2);
+        switch(choixR){
+            case 1:rechercheId();break;
+            case 2:rechercheModele();break;
+            default:printf("Choix invalid\n");break;
+        }
+        }
+        //rechercheId();
         break;
     case 6:
         int choix;
