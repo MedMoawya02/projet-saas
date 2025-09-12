@@ -57,8 +57,7 @@ switch(choix){
 case 1:strcpy(a.statut,"Disponible");break;
 case 2:strcpy(a.statut,"En_Vol");break;
 case 3:strcpy(a.statut,"En_Maintenance");break;
-default:printf("Choix invalide, statut defini à 'Indefini'\n");
-        strcpy(a.statut, "Indéfini");
+default:printf("Choix invalide\n");
         break;
 }
 aer.avions[aer.nbAvions]=a;
@@ -73,7 +72,7 @@ int id,nouvelleC;
 char nouveauM[20];
 int existe=-1;
 if(aer.nbAvions==0){
-    printf("Aucune avion dans l'aeroport pour le moment\n");
+    printf("Aucune avion chez %s pour le moment\n",aer.nom);
     return;
 }
 printf("Quel est l'id de l'avion voulez-vous modifier ? ");
@@ -106,7 +105,7 @@ void supprimerAvion(){
 int id,i;
 int existe=-1;
 if(aer.nbAvions==0){
-    printf("Aucune avion dans l'aeroport pour le moment \n");
+    printf("Aucune avion chez %s pour le moment \n",aer.nom);
     return;
 }
 printf("Entrez l'id de l'avion a supprimee:");
@@ -135,7 +134,7 @@ void rechercheId(){
     int id,existe=-1;
     int i;
     if(aer.nbAvions==0){
-    printf("Aucune avion dans l'aeroport pour le moment\n");
+    printf("Aucune avion chez %s pour le moment\n",aer.nom);
     return;
 }
     printf("L'id de l'avion qe tu veut?");
@@ -159,6 +158,8 @@ void rechercheModele(){
     int i,existe=-1;
     char input[25];
     printf("Entrez le modele voulez-est vous cherchez:");
+    int ch;
+    while ((ch = getchar()) != '\n' && ch != EOF);
     fgets(input,sizeof(input),stdin);
     input[strcspn(input,"\n")]=0;
 
@@ -171,7 +172,7 @@ void rechercheModele(){
     if(existe==-1)
         printf("Modele indisponible\n");
     else{
-        printf("L'avion %d\n",input);
+        printf("L'avion %s\n",input);
         printf("Id : %d | Modele : %s | Capacite : %d | Statut : %s\n",aer.avions[existe].idAvion,aer.avions[existe].modele,aer.avions[existe].capacite,aer.avions[existe].statut);
     }
 }
@@ -226,72 +227,78 @@ void statistiques(){
     int disponible=0;
     int vol=0;
     int maintenance=0;
-printf("Le nombre total des avions chez %s est : %d\n",aer.nom,aer.nbAvions);
-for(int i=0;i<aer.nbAvions;i++){
-    if(strcasecmp(aer.avions[i].statut,"Disponible")==0){
-
-        disponible++;
+    if(aer.nbAvions==0){
+        printf("Aucune avion chez %s pour le moment \n",aer.nom);
     }
-    else if(strcasecmp(aer.avions[i].statut,"En_vol")==0){
-        vol++;
-    }
-    else
-        maintenance++;
-}
-printf("Le nombre des avions disponible :%d\n",disponible);
-for(int i=0;i<aer.nbAvions;i++){
-if(strcasecmp(aer.avions[i].statut,"Disponible")==0){
-    printf("L'id:%d     |",aer.avions[i].idAvion);
-    printf("Modele:=%s  |",aer.avions[i].modele);
-    printf("Capacite=%d |",aer.avions[i].capacite);
-    printf("Statut=%s\n",aer.avions[i].statut);
-}
+    else{
 
-}
-printf("Le nombre des avions En_Vol :%d\n",vol);
-for(int i=0;i<aer.nbAvions;i++){
-if(strcasecmp(aer.avions[i].statut,"En_Vol")==0){
-    printf("L'id:%d      |",aer.avions[i].idAvion);
-    printf("Modele:=%s   |",aer.avions[i].modele);
-    printf("Capacite=%d  |",aer.avions[i].capacite);
-    printf("Statut=%s\n",aer.avions[i].statut);
-}
-
-}
-printf("Le nombre des avions maintenance :%d\n",maintenance);
-for(int i=0;i<aer.nbAvions;i++){
-if(strcasecmp(aer.avions[i].statut,"En_Maintenance")==0){
-    printf("L'id:%d      |",aer.avions[i].idAvion);
-    printf("Modele:=%s   |",aer.avions[i].modele);
-    printf("Capacite=%d  |",aer.avions[i].capacite);
-    printf("Statut=%s\n",aer.avions[i].statut);
-}
-
-}
-int max=aer.avions[0].capacite;
-int idMax=0;
-  for(int i = 1; i < aer.nbAvions; i++) {
-        if(aer.avions[i].capacite > max) {
-            max = aer.avions[i].capacite;
-            idMax = i;
+        printf("Le nombre total des avions chez %s est : %d\n",aer.nom,aer.nbAvions);
+        for(int i=0;i<aer.nbAvions;i++){
+            if(strcasecmp(aer.avions[i].statut,"Disponible")==0){
+                
+                disponible++;
+            }
+            else if(strcasecmp(aer.avions[i].statut,"En_vol")==0){
+                vol++;
+            }
+            else
+            maintenance++;
         }
-    }
-
-    printf("L'avion avec la plus grande capacite est:");
-    printf("ID: %d | Modele: %s | Capacite: %d | \n",
-           aer.avions[idMax].idAvion,
-           aer.avions[idMax].modele,
-           aer.avions[idMax].capacite);
-int min=aer.avions[0].capacite;
-int idMin=0;
-    for(int i=0;i<aer.nbAvions;i++){
-        if(min>aer.avions[i].capacite){
-            min=aer.avions[i].capacite;
-            idMin=i;
+        printf("Le nombre des avions disponible :%d\n",disponible);
+        for(int i=0;i<aer.nbAvions;i++){
+            if(strcasecmp(aer.avions[i].statut,"Disponible")==0){
+                printf("L'id:%d     |",aer.avions[i].idAvion);
+                printf("Modele:=%s  |",aer.avions[i].modele);
+                printf("Capacite=%d |",aer.avions[i].capacite);
+                printf("Statut=%s\n",aer.avions[i].statut);
+            }
+            
         }
-    }
-    printf("L'avion ayant la plus petit capacite est :");
-    printf("ID: %d | Modele: %s | Capacite: %d | \n",aer.avions[idMin].idAvion,aer.avions[idMin].modele,aer.avions[idMin].capacite);
+        printf("Le nombre des avions En_Vol :%d\n",vol);
+        for(int i=0;i<aer.nbAvions;i++){
+            if(strcasecmp(aer.avions[i].statut,"En_Vol")==0){
+                printf("L'id:%d      |",aer.avions[i].idAvion);
+                printf("Modele:=%s   |",aer.avions[i].modele);
+                printf("Capacite=%d  |",aer.avions[i].capacite);
+                printf("Statut=%s\n",aer.avions[i].statut);
+            }
+            
+        }
+        printf("Le nombre des avions maintenance :%d\n",maintenance);
+        for(int i=0;i<aer.nbAvions;i++){
+            if(strcasecmp(aer.avions[i].statut,"En_Maintenance")==0){
+                printf("L'id:%d      |",aer.avions[i].idAvion);
+                printf("Modele:=%s   |",aer.avions[i].modele);
+                printf("Capacite=%d  |",aer.avions[i].capacite);
+                printf("Statut=%s\n",aer.avions[i].statut);
+            }
+            
+        }
+        int max=aer.avions[0].capacite;
+        int idMax=0;
+        for(int i = 1; i < aer.nbAvions; i++) {
+            if(aer.avions[i].capacite > max) {
+                max = aer.avions[i].capacite;
+                idMax = i;
+            }
+        }
+        
+        printf("L'avion avec la plus grande capacite est:");
+        printf("ID: %d | Modele: %s | Capacite: %d | \n",
+            aer.avions[idMax].idAvion,
+            aer.avions[idMax].modele,
+            aer.avions[idMax].capacite);
+            int min=aer.avions[0].capacite;
+            int idMin=0;
+            for(int i=0;i<aer.nbAvions;i++){
+                if(min>aer.avions[i].capacite){
+                    min=aer.avions[i].capacite;
+                    idMin=i;
+                }
+            }
+            printf("L'avion ayant la plus petit capacite est :");
+            printf("ID: %d | Modele: %s | Capacite: %d | \n",aer.avions[idMin].idAvion,aer.avions[idMin].modele,aer.avions[idMin].capacite);
+        }
 }
 
 
@@ -334,7 +341,7 @@ int main()
     case 5:
         int choixR;
         if(aer.nbAvions==0){
-            printf("Aucune avion dans l'aeroport pour le moment\n");
+            printf("Aucune avion chez %s pour le moment\n",aer.nom);
         }
         else{
 
@@ -352,12 +359,11 @@ int main()
             default:printf("Choix invalid\n");break;
         }
         }
-        //rechercheId();
         break;
     case 6:
         int choix;
         if(aer.nbAvions==0){
-            printf("Aucune avion dans l'aeroport pour le moment\n");
+            printf("Aucune avion chez %s pour le moment\n",aer.nom);
         }
         else{
 
@@ -384,8 +390,6 @@ int main()
         break;
     default:
         printf("Choix invalid\n");
-
-
     }
     }while(operation!=0);
 
